@@ -17,7 +17,7 @@ namespace ShoppingBasket.Console
             // 1 bread, 1 butter, 1 milk
             var products = new[] { GetBread(), GetButter(), GetMilk() };
             var basket = CreateAndSetupBasketWithTwoDiscounts(products);
-
+            
             basket.GetTotal();
 
             //2 butters, 2 breads
@@ -30,11 +30,15 @@ namespace ShoppingBasket.Console
             products = new[] { GetMilk(), GetMilk(), GetMilk(), GetMilk() };
             basket = CreateAndSetupBasketWithTwoDiscounts(products);
 
+            basket.GetTotal();
+
             // 2 butters, 1 bread, 8 milks
             products = new[] { GetButter(), GetButter(), GetBread(), GetMilk(), GetMilk(), GetMilk(), GetMilk(), GetMilk(), GetMilk(), GetMilk(), GetMilk() };
             basket = CreateAndSetupBasketWithTwoDiscounts(products);
 
             basket.GetTotal();
+
+            System.Console.ReadKey();
         }
 
         static Basket CreateAndSetupBasketWithTwoDiscounts(IEnumerable<Product> products)
