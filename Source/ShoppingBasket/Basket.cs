@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -47,6 +48,8 @@ namespace ShoppingBasket
         // hence one discount per same set of items rule
         public decimal GetTotal()
         {
+            Log.Information("Calculating shopping basket total...");
+            Log.Information("Items in basket: {0}", products.GroupBy(p => p.Type).Select(x => $"{x.Count()} x {x.First().Name}"));
             // Sum the products...
             var productsSum = products.Sum(p => p.Price);
             IEnumerable<Product> productsForDiscount = products;
@@ -54,14 +57,29 @@ namespace ShoppingBasket
             // Apply each discount...
             foreach (var discount in discounts)
             {
+                Log.Information("Applying discount '{0}'....", discount.Name);
                 var (Products, DiscountAmount) = discount.GetDiscountAmount(productsForDiscount);
 
+                if (DiscountAmount != 0m)
+                {
+                    Log.Information("{0} itmes in shopping basket result in price reduced by {1}", Products.Count(), DiscountAmount);
+                }
+                else
+                {
+                    Log.Information("Discount cannot be applied to items in the basket");
+                }
                 // Now remove all affected products from the list so we don't potentially apply more discounts on them
                 productsForDiscount = productsForDiscount.Except(Products);
                 totalDiscount += DiscountAmount;
             }
 
-            return Math.Max(0m, productsSum - totalDiscount);
+            var total = Math.Max(0m, productsSum - totalDiscount);
+
+            Log.Information("Total price of the products in the basket: {0}", productsSum);
+            Log.Information("Total discount amount: {0}", totalDiscount);
+            Log.Information("Total after discount: {0}", total);
+
+            return total;
         }
     }
 }

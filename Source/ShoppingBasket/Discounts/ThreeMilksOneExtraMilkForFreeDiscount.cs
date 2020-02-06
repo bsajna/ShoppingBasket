@@ -6,6 +6,8 @@ namespace ShoppingBasket.Discounts
 {
     public class ThreeMilksOneExtraMilkForFreeDiscount : IDiscount
     {
+        public string Name => "Buy 3 milks and get the 4th milk for free ";
+
         /// <summary>
         /// Returns the total amount of discount that can be applied to the specified products, and the list of products that enabled the discount to be applied if it can be applied.
         /// For every group of products consisting of four milks, discount amount is incremented by the full price of one milk in the corresponding group.

@@ -9,6 +9,9 @@ namespace ShoppingBasket.Discounts
     /// </summary>
     public class TwoButtersBreadDiscount : IDiscount
     {
+        public string Name => "Buy 2 butters and get one bread at 50% off";
+
+
         /// <summary>
         /// Returns the total amount of discount that can be applied to the specified products, and the list of products that enabled the discount to be applied if it can be applied.
         /// For every group of products consisting of two butters and one bread, discount amount is incremented by 50% of the price of bread in the corresponding group.
@@ -36,7 +39,7 @@ namespace ShoppingBasket.Discounts
             foreach (var bread in breads)
             {
                 // check if we have two more butters...
-                if (i + 2 < butters.Length)
+                if (i + 1 < butters.Length)
                 {
                     // and if we do, add 50% of bread price to the current amount
                     amount += bread.Price * 0.5m;
